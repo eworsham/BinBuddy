@@ -1,0 +1,73 @@
+//
+//  ContainerDetailView.swift
+//  BinBuddy
+//
+//  Created by Ryan Worsham on 7/27/25.
+//
+import SwiftUI
+
+struct ContainerDetailView: View {
+    @Bindable var container: Container
+    @State private var isShowingItemAlert = false
+    @State private var newItemName = ""
+    
+    var body: some View {
+        List {
+            ForEach(container.items) { item in
+                Text(item.name)
+            }
+            .onDelete(perform: deleteItem)
+        }
+        .navigationTitle(container.name)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                EditButton()
+            }
+            ToolbarItem {
+                Button("Add Item") {
+                    promptForItemName()
+                }
+            }
+        }
+        .alert("New Item", isPresented: $isShowingItemAlert, actions: {
+            TextField("Item Name", text: $newItemName)
+            Button("Add Item", action: {
+                addItem(name: newItemName)
+                newItemName = ""
+            })
+            Button("Cancel", role: .cancel, action: {
+                newItemName = ""
+            })
+        })
+    }
+    
+    private func promptForItemName() {
+        isShowingItemAlert = true
+    }
+    
+    private func addItem(name: String) {
+        withAnimation {
+            let newItem = Item(name: name)
+            container.items.append(newItem)
+        }
+    }
+    
+    private func deleteItem(offsets: IndexSet) {
+        withAnimation {
+            for index in offsets {
+                container.items.remove(at: index)
+            }
+        }
+    }
+}
+
+#Preview {
+    let previewContainer = Container(name: "Sample Bin")
+    previewContainer.items.append(Item(name: "Wrench"))
+    previewContainer.items.append(Item(name: "Hammer"))
+
+    return NavigationStack {
+        ContainerDetailView(container: previewContainer)
+    }
+    .modelContainer(for: [Container.self, Item.self], inMemory: true)
+}

@@ -10,9 +10,13 @@ import SwiftData
 
 @Model
 final class Item {
+    var name: String
     var timestamp: Date
+    var container: Container?
     
-    init(timestamp: Date) {
+    init(name: String, timestamp: Date = .now, container: Container? = nil) {
+        self.name = name
         self.timestamp = timestamp
+        self.container = container
     }
 }
