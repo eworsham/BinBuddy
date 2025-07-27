@@ -12,22 +12,25 @@ struct ContainerDetailView: View {
     @State private var newItemName = ""
     
     var body: some View {
-        List {
-            ForEach(container.items) { item in
-                Text(item.name)
-            }
-            .onDelete(perform: deleteItem)
-        }
-        .navigationTitle(container.name)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                EditButton()
-            }
-            ToolbarItem {
-                Button("Add Item") {
-                    promptForItemName()
+        AppHeader(subtitle: "\(container.name) (\(container.items.count) items)")
+        
+        ZStack(alignment: .bottomTrailing) {
+            List {
+                if (container.items.isEmpty) {
+                    Text("No Items Created")
+                        .foregroundColor(.secondary)
+                        .italic()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 40)
+                } else {
+                    ForEach(container.items) { item in
+                        Text(item.name)
+                    }
+                    .onDelete(perform: deleteItem)
                 }
             }
+            FloatingAddButton(action: promptForItemName)
+                .padding(.trailing, 30)
         }
         .alert("New Item", isPresented: $isShowingItemAlert, actions: {
             TextField("Item Name", text: $newItemName)

@@ -25,7 +25,7 @@ struct BinBuddyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContainerListView()
         }
         .modelContainer(sharedModelContainer)
     }
