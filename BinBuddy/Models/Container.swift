@@ -7,6 +7,7 @@
 import Foundation
 import SwiftData
 
+// Modal class that respresents a container
 @Model
 class Container {
     var name: String

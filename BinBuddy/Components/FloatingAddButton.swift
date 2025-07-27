@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// View for the blue plus button used to add new containers and items
 struct FloatingAddButton: View {
     var action: () -> Void
     

@@ -11,6 +11,7 @@ struct ContainerDetailView: View {
     @State private var isShowingItemAlert = false
     @State private var newItemName = ""
     
+    // Container Detail View
     var body: some View {
         AppHeader(subtitle: "\(container.name) (\(container.items.count) items)")
         
@@ -44,10 +45,12 @@ struct ContainerDetailView: View {
         })
     }
     
+    // Function for displaying the prompt to grab the new item name
     private func promptForItemName() {
         isShowingItemAlert = true
     }
     
+    // Function for adding a new item
     private func addItem(name: String) {
         withAnimation {
             let newItem = Item(name: name)
@@ -55,6 +58,7 @@ struct ContainerDetailView: View {
         }
     }
     
+    // Function for deleting an item
     private func deleteItem(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
@@ -64,6 +68,7 @@ struct ContainerDetailView: View {
     }
 }
 
+// Preview for development and debugging
 #Preview {
     let previewContainer = Container(name: "Sample Bin")
     previewContainer.items.append(Item(name: "Wrench"))

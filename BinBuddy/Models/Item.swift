@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+// Model class that represents an item
 @Model
 final class Item {
     var name: String

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// App Header that contains the name of the app and view subtitle
 struct AppHeader: View {
     let subtitle: String
     @Environment(\.colorScheme) private var colorScheme

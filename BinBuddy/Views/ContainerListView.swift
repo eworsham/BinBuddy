@@ -14,6 +14,7 @@ struct ContainerListView: View {
     @State private var isShowingContainerAlert = false
     @State private var newContainerName = ""
 
+    // Container List View
     var body: some View {
         NavigationStack {
             AppHeader(subtitle: "Containers")
@@ -63,10 +64,12 @@ struct ContainerListView: View {
         }
     }
     
+    // Function for displaying prompt to grab container name
     private func promptForContainerName() {
         isShowingContainerAlert = true
     }
 
+    // Function to add a new container
     private func addContainer(name: String) {
         withAnimation {
             let newContainer = Container(name: name)
@@ -74,6 +77,7 @@ struct ContainerListView: View {
         }
     }
 
+    // Function to delete an existing container
     private func deleteContainers(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
@@ -83,6 +87,7 @@ struct ContainerListView: View {
     }
 }
 
+// Preview for development and debugging
 #Preview {
     let previewModelContainer = try! ModelContainer(for: Container.self, Item.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
     
