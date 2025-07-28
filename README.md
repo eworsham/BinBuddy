@@ -1,30 +1,18 @@
 # Overview
 
-{Important!  Do not say in this section that this is college assignment.  Talk about what you are trying to accomplish as a software engineer to further your learning.}
+This iOS app is an inventory management app called BinBuddy. The app is for people who have physical storage spaces in their homes or offices. The app will allow for setting up containers and storing items in those containers to mirror the storage of the physical space. The app can then be used to recall where items were stored, eliminating the need to physically search through all the containers in the home or office storage space to find what the user is looking for.
 
-{Provide a description of your app.  Describe how to use the app.}
-
-{Describe your purpose for creating this app.}
-
-{Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the app running and a walkthrough of the code.}
-
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/6T2qdCIE-gM)
 
 # Development Environment
-
-{Describe the tools that you used to develop the app}
-
-{Describe the programming language that you used and any libraries.}
+* Developed in Xcode
+* Written in Swift and SwiftUI
 
 # Useful Websites
-
-{Make a list of websites that you found helpful in this project}
-* [Web Site Name](http://url.link.goes.here)
-* [Web Site Name](http://url.link.goes.here)
+* [Apple's Swift Documentation](https://developer.apple.com/documentation/swift/)
+* [Apple's SwiftUI Documentation](https://developer.apple.com/documentation/SwiftUI)
 
 # Future Work
-
-{Make a list of things that you need to fix, improve, and add in the future.}
-* Item 1
-* Item 2
-* Item 3
+* A bug that I need to fix is that you can add containers and items with empty names. I would like to validate the input from the user so that empty names are not allowed
+* A feature that I would like to add is the ability to edit the name of containers and items
+* One enhacement for the app that I want to implement is the ability to scan a QR code that is tied to a container. Users would be able to print out a QR code and place it on a container, scaning that QR code in the app would open up the contents of that container in the app
