@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct ContainerDetailView: View {
-    @Bindable var container: Container
+    @State var container: Container
     @State private var isShowingItemAlert = false
     @State private var newItemName = ""
     
@@ -52,30 +52,23 @@ struct ContainerDetailView: View {
     
     // Function for adding a new item
     private func addItem(name: String) {
-        withAnimation {
-            let newItem = Item(name: name)
-            container.items.append(newItem)
-        }
+//        withAnimation {
+//            let newItem = Item(name: name)
+//            container.items.append(newItem)
+//        }
     }
     
     // Function for deleting an item
     private func deleteItem(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                container.items.remove(at: index)
-            }
-        }
+//        withAnimation {
+//            for index in offsets {
+//                container.items.remove(at: index)
+//            }
+//        }
     }
 }
 
 // Preview for development and debugging
 #Preview {
-    let previewContainer = Container(name: "Sample Bin")
-    previewContainer.items.append(Item(name: "Wrench"))
-    previewContainer.items.append(Item(name: "Hammer"))
-
-    return NavigationStack {
-        ContainerDetailView(container: previewContainer)
-    }
-    .modelContainer(for: [Container.self, Item.self], inMemory: true)
+    
 }

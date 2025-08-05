@@ -5,14 +5,14 @@
 //  Created by Ryan Worsham on 7/27/25.
 //
 import Foundation
-import SwiftData
+import FirebaseFirestore
 
-// Modal class that respresents a container
-@Model
-class Container {
+// Struct that respresents a container
+struct Container: Identifiable, Codable {
+    @DocumentID var id: String?
     var name: String
     var createdAt: Date
-    @Relationship(deleteRule: .cascade) var items: [Item] = []
+    var items: [Item] = []
     
     init(name: String, createdAt: Date = .now) {
         self.name = name

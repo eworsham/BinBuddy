@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import SwiftData
+import FirebaseFirestore
 
-// Model class that represents an item
-@Model
-final class Item {
+// Struct that represents an item
+struct Item: Codable, Identifiable {
+    @DocumentID var id : String?
     var name: String
     var timestamp: Date
     var container: Container?

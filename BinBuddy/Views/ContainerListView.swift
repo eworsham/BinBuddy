@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ContainerListView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var containers: [Container]
+    private let firestoreService = FirestoreService()
+    @State private var containers: [Container] = []
     @State private var isShowingContainerAlert = false
     @State private var newContainerName = ""
 
@@ -44,18 +43,29 @@ struct ContainerListView: View {
                                 }
                             }
                         }
-                        .onDelete(perform: deleteContainers)
+                        .onDelete { offsets in
+                            Task {
+                                deleteContainers(offsets: offsets)
+                                await loadContainers()
+                            }
+                        }
                     }
                 }
                 FloatingAddButton(action: promptForContainerName)
                     .padding(.trailing, 30)
             }
             .background(Color(.systemGroupedBackground))
+            .task {
+                await loadContainers()
+            }
             .alert("New Container", isPresented: $isShowingContainerAlert, actions: {
                 TextField("Container Name", text: $newContainerName)
                 Button("Add Container", action: {
-                    addContainer(name: newContainerName)
-                    newContainerName = ""
+                    Task {
+                        addContainer(name: newContainerName)
+                        await loadContainers()
+                        newContainerName = ""
+                    }
                 })
                 Button("Cancel", role: .cancel, action: {
                     newContainerName = ""
@@ -68,40 +78,35 @@ struct ContainerListView: View {
     private func promptForContainerName() {
         isShowingContainerAlert = true
     }
+    
+    // Function to load all containers
+    private func loadContainers() async {
+        let fetched = await firestoreService.fetchAllContainers()
+        withAnimation {
+            containers = fetched
+        }
+    }
 
     // Function to add a new container
     private func addContainer(name: String) {
-        withAnimation {
-            let newContainer = Container(name: name)
-            modelContext.insert(newContainer)
-        }
+        let newContainer = Container(name: name)
+        firestoreService.addContainer(container: newContainer)
     }
 
     // Function to delete an existing container
     private func deleteContainers(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(containers[index])
+        for index in offsets {
+            let containerToDelete = containers[index]
+            guard let id = containerToDelete.id else {
+                print( "Error deleting container: Missing ID.")
+                continue
             }
+            firestoreService.deleteContainer(id: id)
         }
     }
 }
 
 // Preview for development and debugging
 #Preview {
-    let previewModelContainer = try! ModelContainer(for: Container.self, Item.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-    
-    let sampleContainer1 = Container(name: "Garage Tools")
-    sampleContainer1.items.append(Item(name: "Hammer"))
-    sampleContainer1.items.append(Item(name: "Screwdriver"))
-    
-    let sampleContainer2 = Container(name: "Home Improvement")
-    sampleContainer2.items.append(Item(name: "Level"))
-    sampleContainer2.items.append(Item(name: "Measuring tape"))
-    
-    previewModelContainer.mainContext.insert(sampleContainer1)
-    previewModelContainer.mainContext.insert(sampleContainer2)
-
-    return ContainerListView()
-        .modelContainer(previewModelContainer)
+    ContainerListView()
 }
