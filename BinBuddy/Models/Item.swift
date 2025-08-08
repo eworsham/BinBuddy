@@ -13,11 +13,12 @@ struct Item: Codable, Identifiable {
     @DocumentID var id : String?
     var name: String
     var timestamp: Date
-    var container: Container?
+    var containerID: String?
     
-    init(name: String, timestamp: Date = .now, container: Container? = nil) {
+    init(id: String? = nil, name: String, timestamp: Date = .now, containerID: String) {
+        self.id = id
         self.name = name
         self.timestamp = timestamp
-        self.container = container
+        self.containerID = containerID
     }
 }

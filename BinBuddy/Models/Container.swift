@@ -12,9 +12,9 @@ struct Container: Identifiable, Codable {
     @DocumentID var id: String?
     var name: String
     var createdAt: Date
-    var items: [Item] = []
     
-    init(name: String, createdAt: Date = .now) {
+    init(id: String? = nil, name: String, createdAt: Date = .now) {
+        self.id = id
         self.name = name
         self.createdAt = createdAt
     }
